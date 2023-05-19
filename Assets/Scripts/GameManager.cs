@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
 	{
+		if (!ball.GetCurrentHoop()) return;
+
 		if (Input.GetMouseButtonDown(0))
 		{
 			OnDragStart();
@@ -29,11 +31,14 @@ public class GameManager : MonoBehaviour
 		{
 			OnDragEnd();
 		}
+        else
+        {
+			ball.GetCurrentHoop().SetDefaultRotation();
+		}
 	}
 
 	private void OnDragStart()
 	{
-		ball.DisablePhysics();
 		_startPoint = playerCamera.ScreenToWorldPoint(Input.mousePosition);
 
 		trajectory.Show();
@@ -48,12 +53,16 @@ public class GameManager : MonoBehaviour
 
 		_force = Vector2.ClampMagnitude(_force, maxForce);
 
+		ball.GetCurrentHoop().SetHoopNetTension(_force.magnitude / maxForce);
+		ball.GetCurrentHoop().SetRotationByTouchScreen(Input.mousePosition);
+
 		trajectory.DrawDots(ball.transform.position, _force);
 	}
 
 	private void OnDragEnd()
 	{
-		float forceMagnitude = Mathf.Abs(_force.magnitude);
+		ball.GetCurrentHoop().SetHoopNetTension(0f);
+		float forceMagnitude = _force.magnitude;
 
 		if (forceMagnitude < minForce || forceMagnitude > maxForce)
 		{
