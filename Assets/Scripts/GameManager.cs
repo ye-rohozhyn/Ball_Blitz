@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -13,16 +14,20 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private Transform leftWall;
 	[SerializeField] private Transform rightWall;
 
+	[Header("Score")]
+	[SerializeField] private TMP_Text scoreText;
+
 	private Vector2 _startPoint;
 	private Vector2 _endPoint;
 	private Vector2 _direction;
 	private Vector2 _force;
 	private float _distance;
+	private int _score = 0;
 	
-	public static int CountShots = 0;
-	public static bool IsLose = false;
+	public int CountShots { get; set; }
+	public bool IsLose { get; set; }
 
-    private void Start()
+	private void Start()
     {
 		SetWallsPosition();
 	}
@@ -47,6 +52,12 @@ public class GameManager : MonoBehaviour
         {
 			ball.GetCurrentHoop().SetDefaultRotation();
 		}
+	}
+
+	public void AddScore(int value)
+    {
+		_score += value;
+		scoreText.text = _score.ToString();
 	}
 
 	private void SetWallsPosition()

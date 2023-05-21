@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager;
     [SerializeField] private Transform target;
     [SerializeField] private float yOffset = 1.25f;
     [SerializeField] private float maxFallDistance = -6f;
@@ -13,13 +14,13 @@ public class CameraFollow : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_fallDistance <= maxFallDistance & GameManager.IsLose)
+        if (_fallDistance <= maxFallDistance & gameManager.IsLose)
         {
             return;
         }
-        else if (_fallDistance <= maxFallDistance & !GameManager.IsLose)
+        else if (_fallDistance <= maxFallDistance & !gameManager.IsLose)
         {
-            GameManager.IsLose = true;
+            gameManager.IsLose = true;
             print("Lose");
             return;
         }

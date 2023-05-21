@@ -5,8 +5,13 @@ public class Ball : MonoBehaviour
 	[SerializeField] private Rigidbody2D ballRigidbody;
 	[SerializeField] private CircleCollider2D ballCollider;
 	[SerializeField] private LevelGenerator levelGenerator;
+	[SerializeField] private GameManager gameManager;
 
 	public bool InAir = true;
+
+	private int _hoopCollisions = 0;
+	private int _perfectShots = 0;
+	private int _maxPerfectShots = 3;
 
 	public void Push(Vector2 force)
 	{
@@ -43,14 +48,38 @@ public class Ball : MonoBehaviour
 
 				hoop.PutBallInHoop(this);
 
-                if (hoop.IsActive & GameManager.CountShots > 0)
+                if (hoop.IsActive & gameManager.CountShots > 0)
                 {
 					levelGenerator.EnableNextHoop();
+					if(_hoopCollisions > 0)
+                    {
+						_perfectShots = 0;
+						gameManager.AddScore(1);
+					}
+                    else
+                    {
+						if (_perfectShots < _maxPerfectShots) _perfectShots++;
+						gameManager.AddScore(_perfectShots * 2);
+					}
 				}
+                else
+                {
+					_perfectShots = 0;
+                }
+
+				_hoopCollisions = 0;
 
 				hoop.IsActive = false;
-				GameManager.CountShots++;
+				gameManager.CountShots++;
 			}
+		}
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+		if (collision.gameObject.CompareTag("HoopRing"))
+        {
+			_hoopCollisions++;
 		}
     }
 }
