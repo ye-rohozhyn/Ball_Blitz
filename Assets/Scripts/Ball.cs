@@ -4,12 +4,13 @@ public class Ball : MonoBehaviour
 {
 	[SerializeField] private Rigidbody2D ballRigidbody;
 	[SerializeField] private CircleCollider2D ballCollider;
+	[SerializeField] private LevelGenerator levelGenerator;
 
-	private Hoop _currentHoop;
+	public bool InAir = true;
 
 	public void Push(Vector2 force)
 	{
-		_currentHoop = null;
+		InAir = true;
 		ballRigidbody.AddForce(force, ForceMode2D.Impulse);
 	}
 
@@ -25,14 +26,9 @@ public class Ball : MonoBehaviour
 		ballRigidbody.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
 	}
 
-	public void SetCurrentHoop(Hoop hoop)
-    {
-		_currentHoop = hoop;
-	}
-
 	public Hoop GetCurrentHoop()
 	{
-		return _currentHoop;
+		return levelGenerator.GetCurrentHoop();
 	}
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -43,7 +39,17 @@ public class Ball : MonoBehaviour
 
             if (hoop)
             {
+				InAir = false;
+
 				hoop.PutBallInHoop(this);
+
+                if (hoop.IsActive & GameManager.CountShots > 0)
+                {
+					levelGenerator.EnableNextHoop();
+				}
+
+				hoop.IsActive = false;
+				GameManager.CountShots++;
 			}
 		}
     }

@@ -9,15 +9,26 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private float minForce = 4f;
 	[SerializeField] private float maxForce = 10f;
 
+	[Header("Walls")]
+	[SerializeField] private Transform leftWall;
+	[SerializeField] private Transform rightWall;
+
 	private Vector2 _startPoint;
 	private Vector2 _endPoint;
 	private Vector2 _direction;
 	private Vector2 _force;
 	private float _distance;
+	
+	public static int CountShots = 0;
+
+    private void Start()
+    {
+		SetWallsPosition();
+	}
 
     private void Update()
 	{
-		if (!ball.GetCurrentHoop()) return;
+		if (ball.InAir) return;
 
 		if (Input.GetMouseButtonDown(0))
 		{
@@ -37,9 +48,23 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	private void OnDragStart()
+	private void SetWallsPosition()
+    {
+		float screenWidth = Screen.width;
+		float screenHeight = Screen.height;
+
+		Vector3 rightWallPosition = playerCamera.ScreenToWorldPoint(new Vector3(screenWidth, screenHeight / 2, playerCamera.nearClipPlane));
+		rightWall.position = rightWallPosition;
+
+		Vector3 leftWallPosition = playerCamera.ScreenToWorldPoint(new Vector3(0, screenHeight / 2, playerCamera.nearClipPlane));
+		leftWall.position = leftWallPosition;
+	}
+
+    #region - Drag ball -
+
+    private void OnDragStart()
 	{
-		_startPoint = playerCamera.ScreenToWorldPoint(Input.mousePosition);
+		_startPoint = ball.transform.position;
 
 		trajectory.Show();
 	}
@@ -74,4 +99,6 @@ public class GameManager : MonoBehaviour
 		ball.Push(_force);
 		trajectory.Hide();
 	}
+
+    #endregion
 }
