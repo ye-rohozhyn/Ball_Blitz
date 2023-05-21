@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 	private float _distance;
 	
 	public static int CountShots = 0;
+	public static bool IsLose = false;
 
     private void Start()
     {
