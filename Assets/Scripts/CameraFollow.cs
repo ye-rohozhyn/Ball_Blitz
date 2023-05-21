@@ -21,7 +21,7 @@ public class CameraFollow : MonoBehaviour
         else if (_fallDistance <= maxFallDistance & !gameManager.IsLose)
         {
             gameManager.IsLose = true;
-            print("Lose");
+            gameManager.ShowLosePanel();
             return;
         }
 

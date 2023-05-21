@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1944373114d4dc4418f4909d558a483f, type: 3}
+  m_Name: Ball_4
+  m_EditorClassIdentifier: 
+  ballSprite: {fileID: 1856257839, guid: 34c4f8f0b4297e84f940a8958c13a4a7, type: 3}
+  ballEffectPrefab: {fileID: 8310602949955452251, guid: c7ae971e8f0423e4485fe4f90f4343a6, type: 3}
+  ballCollisionSound: {fileID: 0}
+  typeValue: 1
+  amount: 50
