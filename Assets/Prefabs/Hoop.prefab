@@ -748,7 +748,7 @@ MonoBehaviour:
   money: {fileID: 931350170090066719}
   chanceObstacle: 0.15
   chanceRotation: 0.35
-  chanceMoney: 0.1
+  chanceMoney: 1
 --- !u!1 &6451385221060257929
 GameObject:
   m_ObjectHideFlags: 0

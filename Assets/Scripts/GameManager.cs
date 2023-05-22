@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Advertisements;
 
 public class GameManager : MonoBehaviour
 {
@@ -43,6 +44,12 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private AudioSource sounds;
 	[SerializeField] private AudioSource music;
 
+	[Header("Ads")]
+	[SerializeField] private RewardedAds rewardedAds;
+
+	[Header("Settings")]
+	[SerializeField] private int targetFrameRate;
+
 	private Vector2 _startPoint;
 	private Vector2 _endPoint;
 	private Vector2 _direction;
@@ -63,6 +70,9 @@ public class GameManager : MonoBehaviour
 	private void Awake()
     {
 		Time.timeScale = 1f;
+
+		Application.targetFrameRate = targetFrameRate;
+
 		_startSoundsVolume = sounds.volume;
 		_startMusicVolume = music.volume;
 
@@ -177,10 +187,23 @@ public class GameManager : MonoBehaviour
 
             if (countAds < balls[index].amount)
             {
-				//start video
-				//if watched then 
-				//countAds++;
-				//PlayerPrefs.SetInt(key, countAds);
+				rewardedAds.ShowAd();
+				rewardedAds.LoadAd();
+
+                if (rewardedAds.GetLastAdStatus().Equals(UnityAdsShowCompletionState.COMPLETED))
+                {
+					countAds++;
+					PlayerPrefs.SetInt(key, countAds);
+
+                    if (balls[index].amount == countAds)
+                    {
+						shopItems[index].GetComponentInParent<ShopItem>().DisablePriceBlock();
+					}
+                    else
+                    {
+						shopItems[index].GetComponentInParent<ShopItem>().UpdateCount(balls[index].amount - countAds);
+					}
+				}
 			}
 		}
 

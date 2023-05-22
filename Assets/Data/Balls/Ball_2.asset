@@ -16,4 +16,4 @@ MonoBehaviour:
   ballEffectPrefab: {fileID: 8310602949955452251, guid: 50725c0a039e0c241a6e33bbaa35d6a4, type: 3}
   ballCollisionSound: {fileID: 8300000, guid: b132e920c059cfe4e917725fb2248f5f, type: 3}
   typeValue: 1
-  amount: 0
+  amount: 20

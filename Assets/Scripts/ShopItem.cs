@@ -24,6 +24,11 @@ public class ShopItem : MonoBehaviour
         }
     }
 
+    public void UpdateCount(int value)
+    {
+        valueText.text = value.ToString();
+    }
+
     public void DisablePriceBlock()
     {
         priceBlock.SetActive(false);
