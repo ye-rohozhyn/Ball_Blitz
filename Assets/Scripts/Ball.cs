@@ -137,6 +137,12 @@ public class Ball : MonoBehaviour
 				gameManager.CountShots++;
 			}
 		}
+
+        if (collision.CompareTag("Money"))
+        {
+            StartCoroutine(collision.GetComponentInParent<Hoop>().ScaleChange(collision.transform, Vector3.zero, 0.1f, false));
+            gameManager.AddMoney(1);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

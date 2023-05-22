@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private TMP_Text bestScoreText;
 	[SerializeField] private TMP_Text scoreText;
 
+	[Header("Score")]
+	[SerializeField] private TMP_Text moneyText;
+
 	[Header("Panels")]
 	[SerializeField] private GameObject losePanel;
 	[SerializeField] private GameObject shopPanel;
@@ -73,6 +76,7 @@ public class GameManager : MonoBehaviour
 
 		_bestScore = PlayerPrefs.GetInt("BestScore", 0);
 		_money = PlayerPrefs.GetInt("Money", 0);
+		moneyText.text = _money.ToString();
 
 		GenerateShop();
 	}
@@ -163,6 +167,8 @@ public class GameManager : MonoBehaviour
 				_money -= balls[index].amount;
 				PlayerPrefs.SetInt("Money", _money);
 				PlayerPrefs.SetInt(key, balls[index].amount);
+				moneyText.text = _money.ToString();
+				shopItems[index].GetComponentInParent<ShopItem>().DisablePriceBlock();
 			}
         }
 		else if (balls[index].typeValue == TypeValue.Ads)
@@ -197,7 +203,7 @@ public class GameManager : MonoBehaviour
 			int index = i; 
 
 			shopItems[i] = Instantiate(itemPrefab, itemsParent).transform;
-			shopItems[i].GetComponent<ShopItem>().SetItem(balls[i]);
+			shopItems[i].GetComponent<ShopItem>().SetItem(balls[i], index);
 			shopItems[i].GetComponentInChildren<Button>().onClick.AddListener(() => SelectBall(index));
 		}
 
@@ -291,6 +297,13 @@ public class GameManager : MonoBehaviour
 	public void PlaySound(AudioClip clip)
     {
 		sounds.PlayOneShot(clip);
+	}
+
+	public void AddMoney(int value)
+	{
+		_money += value;
+		PlayerPrefs.SetInt("Money", _money);
+		moneyText.text = _money.ToString();
 	}
 
 	#endregion

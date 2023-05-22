@@ -213,11 +213,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballIcon: {fileID: 5309879119508264117}
-  ballButton: {fileID: 5309879119508264116}
   valueText: {fileID: 5309879119778379354}
   valueIcon: {fileID: 5309879119941595225}
   moneySprite: {fileID: 814632374, guid: d30f480bfb5cc0d4c8bf3f01f02b8ba0, type: 3}
   adsSprite: {fileID: 767626369, guid: d30f480bfb5cc0d4c8bf3f01f02b8ba0, type: 3}
+  priceBlock: {fileID: 5309879120569303284}
 --- !u!1 &5309879119778379352
 GameObject:
   m_ObjectHideFlags: 0

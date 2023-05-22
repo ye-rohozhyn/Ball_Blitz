@@ -9,12 +9,23 @@ public class ShopItem : MonoBehaviour
     public Image valueIcon;
     public Sprite moneySprite;
     public Sprite adsSprite;
+    public GameObject priceBlock;
 
-    public void SetItem(BallData ball)
+    public void SetItem(BallData ball, int index)
     {
         ballIcon.sprite = ball.ballSprite;
         valueText.text = ball.amount.ToString();
         valueIcon.sprite = ball.typeValue == TypeValue.Money ? moneySprite : adsSprite;
         valueIcon.color = ball.typeValue == TypeValue.Money ? Color.yellow : Color.white;
+
+        if (PlayerPrefs.GetInt($"Ball {index} {(int)ball.typeValue} {ball.amount}", 0) == ball.amount)
+        {
+            priceBlock.SetActive(false);
+        }
+    }
+
+    public void DisablePriceBlock()
+    {
+        priceBlock.SetActive(false);
     }
 }

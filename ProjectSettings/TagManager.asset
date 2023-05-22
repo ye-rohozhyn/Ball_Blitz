@@ -7,6 +7,7 @@ TagManager:
   - Hoop
   - HoopRing
   - Walls
+  - Money
   layers:
   - Default
   - TransparentFX
