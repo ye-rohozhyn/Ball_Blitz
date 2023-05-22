@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballSprite: {fileID: 1656690279, guid: 34c4f8f0b4297e84f940a8958c13a4a7, type: 3}
   ballEffectPrefab: {fileID: 8310602949955452251, guid: 7424948eabb497b468a4e7f07eaea262, type: 3}
-  ballCollisionSound: {fileID: 0}
+  ballCollisionSound: {fileID: 8300000, guid: b132e920c059cfe4e917725fb2248f5f, type: 3}
   typeValue: 1
   amount: 0

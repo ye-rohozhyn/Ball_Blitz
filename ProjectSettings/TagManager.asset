@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Hoop
   - HoopRing
+  - Walls
   layers:
   - Default
   - TransparentFX

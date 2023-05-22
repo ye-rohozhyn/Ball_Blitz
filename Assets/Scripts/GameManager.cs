@@ -34,6 +34,12 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private Transform itemsParent;
 	[SerializeField] private GameObject itemPrefab;
 
+	[Header("Audio")]
+	[SerializeField] private Toggle soundsToggle;
+	[SerializeField] private Toggle musicToggle;
+	[SerializeField] private AudioSource sounds;
+	[SerializeField] private AudioSource music;
+
 	private Vector2 _startPoint;
 	private Vector2 _endPoint;
 	private Vector2 _direction;
@@ -44,6 +50,8 @@ public class GameManager : MonoBehaviour
 	private int _money = 0;
 	private GameObject _lastOpenPanel;
 	private Transform[] shopItems;
+	private float _startSoundsVolume;
+	private float _startMusicVolume;
 
 	public int CountShots { get; set; }
 	public bool IsLose { get; set; }
@@ -52,6 +60,14 @@ public class GameManager : MonoBehaviour
 	private void Awake()
     {
 		Time.timeScale = 1f;
+		_startSoundsVolume = sounds.volume;
+		_startMusicVolume = music.volume;
+
+		sounds.volume = PlayerPrefs.GetFloat("Sounds", _startSoundsVolume);
+		music.volume = PlayerPrefs.GetFloat("Music", _startMusicVolume);
+
+		soundsToggle.isOn = sounds.volume > 0f;
+		musicToggle.isOn = music.volume > 0f;
 
 		SetWallsPosition();
 
@@ -59,6 +75,11 @@ public class GameManager : MonoBehaviour
 		_money = PlayerPrefs.GetInt("Money", 0);
 
 		GenerateShop();
+	}
+
+    private void Start()
+    {
+		music.Play();
 	}
 
     private void Update()
@@ -187,6 +208,22 @@ public class GameManager : MonoBehaviour
 		ballMarker.position = shopItems[PlayerPrefs.GetInt("BallIndex", 0)].position;
 	}
 
+	public void ToggleSounds(Toggle toggle)
+    {
+		if (toggle.isOn) sounds.volume = _startSoundsVolume;
+		else sounds.volume = 0f;
+
+		PlayerPrefs.SetFloat("Sounds", sounds.volume);
+	}
+
+	public void ToggleMusic(Toggle toggle)
+	{
+		if (toggle.isOn) music.volume = _startMusicVolume;
+		else music.volume = 0f;
+
+		PlayerPrefs.SetFloat("Music", music.volume);
+	}
+
 	#endregion
 
 	#region - Drag ball -
@@ -249,6 +286,11 @@ public class GameManager : MonoBehaviour
 
 		Vector3 leftWallPosition = playerCamera.ScreenToWorldPoint(new Vector3(0, screenHeight / 2, playerCamera.nearClipPlane));
 		leftWall.position = leftWallPosition;
+	}
+
+	public void PlaySound(AudioClip clip)
+    {
+		sounds.PlayOneShot(clip);
 	}
 
 	#endregion

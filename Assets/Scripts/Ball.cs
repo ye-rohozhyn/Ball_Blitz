@@ -18,11 +18,13 @@ public class Ball : MonoBehaviour
 	private int _perfectShots = 0;
 	private int _maxPerfectShots = 3;
 	private int _currentBallIndex = 0;
+	private AudioClip _ballHit;
 
-    private void Awake()
+	private void Awake()
     {
 		_currentBallIndex = PlayerPrefs.GetInt("BallIndex", 0);
 		ballSprite.sprite = balls[_currentBallIndex].ballSprite;
+		_ballHit = balls[_currentBallIndex].ballCollisionSound;
 		Transform ballEffectTransform = Instantiate(balls[_currentBallIndex].ballEffectPrefab, null).transform;
 		ballEffectTransform.SetParent(transform);
 		ballEffectTransform.localPosition = Vector3.zero;
@@ -141,7 +143,12 @@ public class Ball : MonoBehaviour
     {
 		if (collision.gameObject.CompareTag("HoopRing"))
         {
+			gameManager.PlaySound(_ballHit);
 			_hoopCollisions++;
+		}
+		else if (collision.gameObject.CompareTag("Walls"))
+        {
+			gameManager.PlaySound(_ballHit);
 		}
     }
 }
